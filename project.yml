@@ -1,5 +1,9 @@
 packages:
   - name: qr
     actions:
-      - name: qr 
+      - name: qr
+        runtime: nodejs:default
+  - name: admin
+    actions:
+      - name: admin
         runtime: nodejs:default

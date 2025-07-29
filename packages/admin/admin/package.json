@@ -1,0 +1,9 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "Serverless admin dashboard backend",
+  "main": "admin.js",
+  "dependencies": {},
+  "devDependencies": {}
+}
+
