@@ -1,14 +1,19 @@
-# Serverless Admin Dashboard
+# Serverless Scholarship Admin Dashboard
 
-This project demonstrates hosting a minimal admin dashboard on DigitalOcean's App Platform using Serverless Functions. The dashboard provides a simple interface to list and create items via a serverless API.
+This project provides an Express-based admin dashboard for viewing scholarship applications. The dashboard is deployed as a DigitalOcean Serverless Function using `serverless-http`.
 
 ## Deploying
 
-1. Clone this repository.
-2. Deploy with `doctl serverless deploy`. The `admin` function will be available along with the static web dashboard found in the `web` directory.
+1. Install dependencies within the `packages/admin_panel/admin_panel` directory using `npm install`.
+2. Deploy the project with `doctl serverless deploy`. The `admin_panel` action will serve the dashboard.
 
 ## Using
 
-Open the deployed site in your browser. Add new items with the form at the top of the page. The page communicates with the `admin/admin` serverless action to store and retrieve items.
+Set the following environment variables for the action:
 
-This code is a simplified example intended for educational use.
+- `MONGO_URL` – connection string for MongoDB
+- `SESSION_SECRET` – secret for Express sessions
+- `ADMIN_USERNAME` – admin user name
+- `ADMIN_PASSWORD_HASH` – bcrypt hash of the admin password
+
+When running locally you may set `SERVE_LOCAL=1` to start an Express server with `npm start`.
