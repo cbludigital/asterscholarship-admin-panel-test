@@ -1,4 +1,4 @@
-# Serverless Scholarship Admin Dashboard
+# Serverless Scholarship Admin Dashboard 
 
 This project provides an Express-based admin dashboard for viewing scholarship applications. The dashboard is deployed as a DigitalOcean Serverless Function using `serverless-http`.
 
