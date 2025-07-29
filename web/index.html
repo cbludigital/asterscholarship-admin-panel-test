@@ -1,66 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <title>Your Serverless Cloud. Beautiful.</title>
+  <title>Admin Dashboard</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <style>
-    .footer {
-      position: absolute;
-      bottom: 0;
-      width: 620px;
-      height: 45px;
-      background-color: #f5f5f5;
-      margin-bottom: 150px;
-    }
-  </style>
 </head>
-
-<body style="padding-top:100px">
+<body style="padding-top:50px">
   <div class="container" style="width:650px">
-    <center><img width="350px" src="/assets/do.png"></center>
-    <h2>Cloud-native by construction.<br />No tools added.</h2>
-    <form id="myform" onsubmit="generate(); return false">
+    <h2>Admin Dashboard</h2>
+    <form id="addForm" class="form-inline" onsubmit="addItem(); return false">
       <div class="form-group">
-        <input id="mytext" class="form-control" style="float:left;width:85%;" type="text" name="text" maxlength="1024"
-          placeholder="enter text here and click Translate" value="" />
-          <button id="mysubmitjs" type="button" class="btn btn-primary" style="margin-top:5px;">Translate (Node API)</button>
+        <input id="itemName" class="form-control" type="text" placeholder="Item name" />
       </div>
-      <div style=" margin:auto" id="myresult">
-      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
     </form>
+    <table id="itemsTable" class="table table-striped" style="margin-top:20px">
+      <thead><tr><th>ID</th><th>Name</th></tr></thead>
+      <tbody></tbody>
+    </table>
   </div>
-
-  <script type="text/javascript">
-    var last = undefined
-    var FUNCTION_API_URL = "%%FUNCTION_API_URL%%";
-    var envAPI = undefined
-
-    $("#mysubmit").click(function () {
-      envAPI = '/qr/qr-java'
-      doit()
-    })
-
-    $("#mysubmitjs").click(function () {
-      envAPI = '/qr/qr'
-      doit()
-    })
-
-    function doit() {
-      var txt = $("#mytext").val().trim()
-      if (last != txt) {
-        last = txt
-        let API = FUNCTION_API_URL + envAPI
-        let src = API + '?text=' + escape(txt)
-        console.log("sending", src)
-        $.get(src, function (data, status) {
-          console.log("status", status)
-          $("#myresult").html('<img width="200" style="display:block; margin:auto;padding-top:10px" src="' + data + '" />')
-        })
-      }
-    }
-  </script>
+<script type="text/javascript">
+  var FUNCTION_API_URL = "%%FUNCTION_API_URL%%";
+  function loadItems(){
+    $.get(FUNCTION_API_URL + '/admin/admin', function(data){
+      var items = JSON.parse(data);
+      var rows = items.map(function(i){
+        return '<tr><td>'+i.id+'</td><td>'+i.name+'</td></tr>';
+      }).join('');
+      $('#itemsTable tbody').html(rows);
+    });
+  }
+  function addItem(){
+    var name = $('#itemName').val().trim();
+    if(!name) return;
+    $.ajax({
+      url: FUNCTION_API_URL + '/admin/admin',
+      method: 'POST',
+      data: JSON.stringify({name: name}),
+      contentType: 'application/json',
+      success: loadItems
+    });
+    $('#itemName').val('');
+  }
+  $(document).ready(loadItems);
+</script>
 </body>
-
 </html>

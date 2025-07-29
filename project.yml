@@ -1,5 +1,5 @@
 packages:
-  - name: qr
+  - name: admin_panel
     actions:
-      - name: qr 
+      - name: admin_panel
         runtime: nodejs:default

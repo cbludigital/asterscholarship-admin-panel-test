@@ -11,3 +11,4 @@ demo-projects.iml
 pnpm-lock.yaml
 vendor
 composer.lock
+.env

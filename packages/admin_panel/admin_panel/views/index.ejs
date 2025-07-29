@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Scholarship Applications</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Admin Dashboard</span>
+        <div class="d-flex">
+          <a href="/logout" class="btn btn-outline-light">Logout</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mt-4">
+      <h1 class="mb-4">Scholarship Applications</h1>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Name</th>
+              <th>Program</th>
+              <th>Domicile State</th>
+              <th>Attachments</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% applications.forEach(app => { %>
+              <tr>
+                <td><%= app.basic_details.full_name %></td>
+                <td class="text-capitalize"><%= app.program_applied_for %></td>
+                <td><%= app.domicile_verification.domicile_state %></td>
+                <td>
+                  <ul class="list-unstyled mb-0">
+                    <li>
+                      <a href="<%= app.domicile_verification.domicile_attatchment %>" target="_blank">Domicile Attachment</a>
+                    </li>
+                    <% if(app.socioEconomicDetails && app.socioEconomicDetails.annualFamilyIncome && app.socioEconomicDetails.annualFamilyIncome.income_cert_attachment) { %>
+                      <li>
+                        <a href="<%= app.socioEconomicDetails.annualFamilyIncome.income_cert_attachment %>" target="_blank">Income Certificate</a>
+                      </li>
+                    <% } %>
+                    <% if(app.socioEconomicDetails && app.socioEconomicDetails.proof_of_economic_hardShip) { %>
+                      <% app.socioEconomicDetails.proof_of_economic_hardShip.proofs.forEach(p => { %>
+                        <li>
+                          <a href="<%= p.attachment %>" target="_blank"><%= p.name %></a>
+                        </li>
+                      <% }); %>
+                    <% } %>
+                  </ul>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
